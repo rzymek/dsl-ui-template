@@ -1,21 +1,27 @@
-name: Build and Test
+name: Build and Publish
 
 on:
   push:
     branches: [ main, master ]
 
 jobs:
-  build-and-test:
+  build-and-publish:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important for git describe to work properly
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@${{ github.repository_owner }}'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -40,10 +46,7 @@ jobs:
         run: pnpm install
 
       - name: Generate Langium files
-        run: pnpm langium:generate
-
-      - name: Generate Langium files
-        run: pnpm langium:generate
+        run: pnpm langium:generate:production
 
       - name: Build
         run: pnpm build
@@ -53,3 +56,8 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Publish package
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -1,5 +1,5 @@
 {
-    "name": "dsl-ui",
+    "name": "@rzymek/dsl-ui",
     "description": "DSL UI",
     "version": "0.0.1",
     "author": "Krzysztof Rzymkowski <rzymek@gmail.com>",
@@ -11,7 +11,7 @@
     "type": "module",
     "scripts": {
         "build": "tsc -b tsconfig.src.json",
-        "watch": "tsc -b tsconfig.src.json --watch",
+        "watch": "npm run build -- --watch",
         "lint": "eslint src --ext ts",
         "langium:generate": "langium generate",
         "langium:generate:production": "langium generate --mode=production",
@@ -44,5 +44,9 @@
     "volta": {
         "node": "18.19.1",
         "npm": "10.2.4"
-    }
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
+    "repository": "github:rzymek/dsl-ui"
 }
