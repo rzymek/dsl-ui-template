@@ -25,7 +25,8 @@
         "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@~3.2.3",
         "monaco-editor-wrapper": "~4.0.2",
         "monaco-languageclient": "~8.1.1",
-        "vscode": "npm:@codingame/monaco-vscode-api@~3.2.3"
+        "vscode": "npm:@codingame/monaco-vscode-api@~3.2.3",
+        "vscode-languageserver": "^9.0.1"
     },
     "peerDependencies": {
         "preact": "^10.26.5"

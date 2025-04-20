@@ -32,6 +32,9 @@ importers:
       vscode:
         specifier: npm:@codingame/monaco-vscode-api@~3.2.3
         version: '@codingame/monaco-vscode-api@3.2.3'
+      vscode-languageserver:
+        specifier: ^9.0.1
+        version: 9.0.1
     devDependencies:
       '@codingame/esbuild-import-meta-url-plugin':
         specifier: ~1.0.2
