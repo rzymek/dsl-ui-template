@@ -4,6 +4,7 @@ import monarchSyntax from "./syntaxes/dsl.monarch.js";
 
 type Options = {
     code: string
+    onChange(value: string):void;
 };
 
 export function setupConfigClassic(opts: Options): UserConfig {
@@ -25,11 +26,11 @@ export function setupConfigClassic(opts: Options): UserConfig {
                     lineDecorationsWidth: 0,
                     minimap: {
                         enabled: false,
-                    }
-                }
-            }
+                    },
+                },
+            },
         },
-        languageClientConfig: configureWorker()
+        languageClientConfig: configureWorker(),
     };
 }
 
@@ -41,5 +42,15 @@ export async function executeClassic(htmlElement: HTMLElement, options:Options):
     const userConfig = setupConfigClassic(options);
     const wrapper = new MonacoEditorLanguageClientWrapper();
     await wrapper.initAndStart(userConfig, htmlElement);
+    const editor = wrapper.getEditor();
+    if(!editor){
+        throw new Error('Editor is undefined');
+    }
+    console.log('editor.onDidChangeModelContent')
+    editor.onDidChangeModelContent(() => {
+        console.log('onDidChangeModelContent')
+        options.onChange(editor.getValue());
+    })
+    options.onChange(options.code);
     return wrapper;
 }

@@ -3,7 +3,8 @@ import {DslEditorInstance, executeClassic} from "../setupClassic.js";
 import {useEffect, useRef} from 'preact/hooks';
 
 configureMonacoWorkers();
-export function DslEditor(props: { children: string }) {
+
+export function DslEditor(props: { children: string, onChange(value: string): void }) {
     const ref = useRef<HTMLDivElement>(null);
     const wrapper = useRef<Promise<DslEditorInstance>>(null);
     useEffect(() => {
@@ -11,6 +12,7 @@ export function DslEditor(props: { children: string }) {
             if (!ref.current) return;
             wrapper.current = executeClassic(ref.current, {
                 code: props.children,
+                onChange: props.onChange,
             });
         })();
         return () => {
