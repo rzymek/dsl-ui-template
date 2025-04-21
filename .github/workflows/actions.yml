@@ -14,6 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          fetch-tags: true
           fetch-depth: 0  # Important for git describe to work properly
 
       - name: Setup Node.js
@@ -58,6 +59,8 @@ jobs:
         run: pnpm test
 
       - name: Publish package
-        run: pnpm publish --no-git-checks
+        run: |
+          npm version $(git describe) --no-git-tag-version --allow-same-version
+          pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

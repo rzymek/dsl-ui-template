@@ -3,7 +3,6 @@ import {DslEditorInstance, executeClassic} from "../setupClassic.js";
 import {useEffect, useRef} from 'preact/hooks';
 
 configureMonacoWorkers();
-
 export function DslEditor(props: { children: string }) {
     const ref = useRef<HTMLDivElement>(null);
     const wrapper = useRef<Promise<DslEditorInstance>>(null);
