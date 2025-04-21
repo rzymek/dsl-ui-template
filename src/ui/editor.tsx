@@ -1,10 +1,10 @@
 import {configureMonacoWorkers} from '../setupCommon.js';
 import {DslEditorInstance, executeClassic} from "../setupClassic.js";
-import {useEffect,useRef} from 'react';
+import {useEffect,useRef} from 'preact/hooks';
 
 export function DslEditor(props:{children: string}) {
-    const ref = useRef<HTMLDivElement | null>(null);
-    const wrapper = useRef<Promise<DslEditorInstance>>(undefined);
+    const ref = useRef<HTMLDivElement>(null);
+    const wrapper = useRef<Promise<DslEditorInstance>>(null);
     useEffect(() => {
         configureMonacoWorkers();
         (async () => {

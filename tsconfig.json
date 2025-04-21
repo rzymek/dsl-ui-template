@@ -4,7 +4,7 @@
         "module": "esnext",
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
-        "moduleResolution": "node",
+        "moduleResolution": "NodeNext",
         "lib": [
             "ESNext",
             "DOM",
@@ -19,14 +19,17 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "rootDir": "src",
+        "declaration": true,
         "noEmit": false,
-        "declaration": true
+        "rootDir": "src",
+        "types": ["node"]
     },
     "include": [
         "src/**/*.ts",
+        "src/**/*.tsx"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "dist"
     ]
 }
