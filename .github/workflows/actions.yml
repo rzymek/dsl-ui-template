@@ -60,7 +60,7 @@ jobs:
 
       - name: Publish package
         run: |
-          npm version $(git describe) --no-git-tag-version --allow-same-version
+          npm version $(git describe | sed 's/-/./1') --no-git-tag-version --allow-same-version
           pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
