@@ -3,14 +3,16 @@
     "description": "DSL UI",
     "version": "0.0.1",
     "author": "Krzysztof Rzymkowski <rzymek@gmail.com>",
-    "main": "out/index.js",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
     "files": [
-        "out",
+        "dist",
         "src"
     ],
-    "type": "module",
     "scripts": {
-        "build": "tsc -b tsconfig.src.json",
+        "build": "tsc",
         "watch": "npm run build -- --watch",
         "lint": "eslint src --ext ts",
         "langium:generate": "langium generate",
@@ -28,9 +30,6 @@
         "vscode": "npm:@codingame/monaco-vscode-api@~3.2.3",
         "vscode-languageserver": "^9.0.1"
     },
-    "peerDependencies": {
-        "preact": "^10.26.5"
-    },
     "devDependencies": {
         "@codingame/esbuild-import-meta-url-plugin": "~1.0.2",
         "@types/node": "^18.0.0",
@@ -38,8 +37,12 @@
         "@typescript-eslint/parser": "~7.3.1",
         "eslint": "~8.57.0",
         "langium-cli": "~3.4.0",
+        "@types/react": "^19.1.2",
         "typescript": "~5.1.6",
         "vitest": "~3.1.1"
+    },
+    "peerDependencies": {
+        "react": "^19.1.0"
     },
     "volta": {
         "node": "18.19.1",

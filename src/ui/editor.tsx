@@ -1,15 +1,21 @@
 import {configureMonacoWorkers} from '../setupCommon.js';
-import {executeClassic} from '../setupClassic.js';
-import { useEffect, useRef } from 'preact/hooks'
+import {DslEditorInstance, executeClassic} from "../setupClassic.js";
+import {useEffect,useRef} from 'react';
 
-configureMonacoWorkers();
-
-export function DslEditor(props: { onStart?: () => void }) {
-    const ref = useRef<HTMLDivElement>();
+export function DslEditor(props:{children: string}) {
+    const ref = useRef<HTMLDivElement | null>(null);
+    const wrapper = useRef<Promise<DslEditorInstance>>(undefined);
     useEffect(() => {
-        if (!ref.current) return;
-        executeClassic(ref.current)
-            .then(props.onStart);
-    }, []);
-    return <div ref={ref} style={{width:'100%',height:'100%',flex:1}}/>;
+        configureMonacoWorkers();
+        (async () => {
+            if (!ref.current) return;
+            wrapper.current = executeClassic(ref.current, {
+                code: props.children,
+            });
+        })();
+        return () => {
+            wrapper.current?.then(i => i.dispose());
+        }
+    }, [props.children]);
+    return <div ref={ref} style={{width: '100%', height: '100%', flex: 1}}/>;
 }
