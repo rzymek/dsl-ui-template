@@ -46,9 +46,7 @@ export async function executeClassic(htmlElement: HTMLElement, options:Options):
     if(!editor){
         throw new Error('Editor is undefined');
     }
-    console.log('editor.onDidChangeModelContent')
     editor.onDidChangeModelContent(() => {
-        console.log('onDidChangeModelContent')
         options.onChange(editor.getValue());
     })
     options.onChange(options.code);
