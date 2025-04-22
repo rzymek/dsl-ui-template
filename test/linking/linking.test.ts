@@ -1,9 +1,10 @@
-import { afterEach, beforeAll, describe, expect, test } from "vitest";
-import { EmptyFileSystem, type LangiumDocument } from "langium";
-import { expandToString as s } from "langium/generate";
-import { clearDocuments, parseHelper } from "langium/test";
-import { createDslServices } from "../../src/language/dsl-module.js";
-import { Model, isModel } from "../../src/language/generated/ast.js";
+import {afterEach, beforeAll, describe, expect, test} from "vitest"
+import {EmptyFileSystem, type LangiumDocument} from "langium"
+import {expandToString as s} from "langium/generate"
+import {clearDocuments, parseHelper} from "langium/test"
+import {createDslServices} from "../../src/language/dsl-module.js"
+import {Model} from "../../src/language/generated/ast.js"
+import {checkDocumentValid} from "../checkDocumentValid.js"
 
 let services: ReturnType<typeof createDslServices>;
 let parse:    ReturnType<typeof parseHelper<Model>>;
@@ -30,10 +31,6 @@ describe('Linking tests', () => {
         `);
 
         expect(
-            // here we first check for validity of the parsed document object by means of the reusable function
-            //  'checkDocumentValid()' to sort out (critical) typos first,
-            // and then evaluate the cross references we're interested in by checking
-            //  the referenced AST element as well as for a potential error message;
             checkDocumentValid(document)
                 || document.parseResult.value.greetings.map(g => g.person.ref?.name || g.person.error?.message).join('\n')
         ).toBe(s`
@@ -41,13 +38,3 @@ describe('Linking tests', () => {
         `);
     });
 });
-
-function checkDocumentValid(document: LangiumDocument): string | undefined {
-    return document.parseResult.parserErrors.length && s`
-        Parser errors:
-          ${document.parseResult.parserErrors.map(e => e.message).join('\n  ')}
-    `
-        || document.parseResult.value === undefined && `ParseResult is 'undefined'.`
-        || !isModel(document.parseResult.value) && `Root AST object is a ${document.parseResult.value.$type}, expected a '${Model}'.`
-        || undefined;
-}

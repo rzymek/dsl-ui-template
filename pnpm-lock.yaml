@@ -60,6 +60,9 @@ importers:
       vitest:
         specifier: ~3.1.1
         version: 3.1.1(@types/node@18.19.86)
+      vscode-languageserver-types:
+        specifier: '*'
+        version: 3.17.5
 
 packages:
 

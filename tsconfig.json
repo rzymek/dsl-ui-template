@@ -21,7 +21,7 @@
         "forceConsistentCasingInFileNames": true,
         "declaration": true,
         "noEmit": false,
-        "rootDir": "src",
+        "rootDir": ".",
         "types": ["node"]
     },
     "include": [
