@@ -4,7 +4,7 @@ import monarchSyntax from "./syntaxes/dsl.monarch.js";
 
 type Options = {
     code: string
-    onChange(value: string):void;
+    onChange(value: string):Promise<void>;
 };
 
 export function setupConfigClassic(opts: Options): UserConfig {
@@ -50,6 +50,6 @@ export async function executeClassic(htmlElement: HTMLElement, options:Options):
     editor.onDidChangeModelContent(() => {
         options.onChange(editor.getValue());
     })
-    options.onChange(options.code);
+    options.onChange(options.code).then();
     return wrapper;
 }
