@@ -19,10 +19,5 @@ export function DslEditor(props: { children: string, onChange(value: string): vo
             wrapper.current?.then(i => i.dispose())
         }
     }, [props.children])
-    return <div ref={ref}
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    flex: 1,
-                }}/>
+    return <div ref={ref} style={{flex: 1}}/>
 }

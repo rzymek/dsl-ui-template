@@ -24,6 +24,7 @@ export function setupConfigClassic(opts: Options): UserConfig {
                     lineNumbers: 'off',
                     glyphMargin: false,
                     lineDecorationsWidth: 0,
+                    automaticLayout: true,
                     minimap: {
                         enabled: false,
                     },

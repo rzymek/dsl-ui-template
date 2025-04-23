@@ -1,7 +1,15 @@
-import { type Module, inject } from 'langium';
-import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
-import { DslGeneratedModule, DslGeneratedSharedModule } from './generated/module.js';
-import { DslValidator, registerValidationChecks } from './dsl-validator.js';
+import {type Module, inject} from "langium"
+import {
+    createDefaultModule,
+    createDefaultSharedModule,
+    type DefaultSharedModuleContext,
+    type LangiumServices,
+    type LangiumSharedServices,
+    type PartialLangiumServices,
+} from "langium/lsp"
+import {DslGeneratedModule, DslGeneratedSharedModule} from "./generated/module.js"
+import {DslValidator, registerValidationChecks} from "./dsl-validator.js"
+import {DslCompletionProvider} from "./dsl-completion-provider.js"
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -25,9 +33,12 @@ export type DslServices = LangiumServices & DslAddedServices
  */
 export const DslModule: Module<DslServices, PartialLangiumServices & DslAddedServices> = {
     validation: {
-        DslValidator: () => new DslValidator()
-    }
-};
+        DslValidator: () => new DslValidator(),
+    },
+    lsp: {
+        CompletionProvider: (services: DslServices) => new DslCompletionProvider(services),
+    },
+}
 
 /**
  * Create the full set of services required by Langium.
@@ -50,19 +61,19 @@ export function createDslServices(context: DefaultSharedModuleContext): {
 } {
     const shared = inject(
         createDefaultSharedModule(context),
-        DslGeneratedSharedModule
-    );
+        DslGeneratedSharedModule,
+    )
     const Dsl = inject(
-        createDefaultModule({ shared }),
+        createDefaultModule({shared}),
         DslGeneratedModule,
-        DslModule
-    );
-    shared.ServiceRegistry.register(Dsl);
-    registerValidationChecks(Dsl);
+        DslModule,
+    )
+    shared.ServiceRegistry.register(Dsl)
+    registerValidationChecks(Dsl)
     if (!context.connection) {
         // We don't run inside a language server
         // Therefore, initialize the configuration provider instantly
-        shared.workspace.ConfigurationProvider.initialized({});
+        shared.workspace.ConfigurationProvider.initialized({})
     }
-    return { shared, Dsl };
+    return {shared, Dsl}
 }
